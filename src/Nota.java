@@ -1,26 +1,22 @@
+import java.util.ArrayList;
+
 public class Nota {
-    private double valor;
-    private String dataLancNota;
+    Aluno aluno; //1 aluno pode ter varias notas
+    Disciplina disciplina;
+    double valor;
+    String data; //registra a data em qwue a not foi lancada 
 
-    public Nota(double valor, String data) {
-        this.valor = valor;
-        this.dataLancNota = data;
+    public Nota(double nota, String data){
+        this.valor = nota;
+        this.data = data;
     }
 
-    public double getValor() {
-        return valor;
+    public double getNota() {
+        return this.valor;
     }
-
-    public void setValor(double valor) {
-        this.valor = valor;
+  
+    public String getData() {
+        return this.data;
     }
-
-    public String getDataLancNota() {
-        return dataLancNota;
-    }
-
-    public void setDataLancNota(String dataLancNota) {
-        this.dataLancNota = dataLancNota;
-    }
-
+    
 }
