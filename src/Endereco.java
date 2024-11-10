@@ -15,4 +15,22 @@ public class Endereco {
     public String toString() {
       return "Cidade: " + this.cidade + " | Estado: " + this.estado + " | CEP: " + this.cep;
     }
+
+    public String getRua() {
+      return this.rua;
+    }
+
+    public String getCidade() {
+      return this.cidade;
+    }
+
+    public String getEstado() {
+      return this.estado;
+    }
+
+    public String getCep() {
+      return this.cep;
+    }
+
+    
   }

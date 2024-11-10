@@ -18,5 +18,5 @@ public class Nota {
     public String getData() {
         return this.data;
     }
-    
+
 }
