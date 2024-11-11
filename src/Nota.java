@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Nota {
     Aluno aluno; //1 aluno pode ter varias notas
     Disciplina disciplina;

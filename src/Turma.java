@@ -16,10 +16,13 @@ public class Turma {
 
     public String relatorioTurmas() {
         StringBuilder turma = new StringBuilder();
-        turma.append("Código da Turma: ").append(this.codigo).append("\n")
-             .append("Ano Letivo da Turma: ").append(this.anoLetivo).append("\n")
-             .append("Disciplina da Turma: ").append(this.disciplina.getNome()).append("\n")
-             .append("Professor: ").append(this.professor.getNome()).append("\n");
+        turma.append("\n\nCódigo da Turma: ").append(this.codigo).append("\n")
+                .append("Ano Letivo da Turma: ").append(this.anoLetivo).append("\n")
+                .append("Disciplina da Turma: ").append(this.disciplina.getNome()).append("\n")
+                .append("Professor: ").append(this.professor.getNome()).append("\n");
+        for (Aluno aluno : alunos) {
+            turma.append(aluno.getNome()).append("\n");
+        }
 
         return turma.toString();
     }
@@ -32,7 +35,7 @@ public class Turma {
         this.alunos.add(aluno);
     }
 
-    public Disciplina getDisciplina(){
+    public Disciplina getDisciplina() {
         return this.disciplina;
     }
 
@@ -40,24 +43,8 @@ public class Turma {
         return this.alunos;
     }
 
-    public Professor getProfessor(){
+    public Professor getProfessor() {
         return this.professor;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder relatorio = new StringBuilder();
-        
-        relatorio.append("Ano Letivo: ").append(this.anoLetivo).append("\n")
-                 .append("Código da Turma: ").append(this.codigo).append("\n")
-                 .append("Disciplina: ").append(this.disciplina.relatorioDisciplina()).append("\n")
-                 .append("Professor: ").append(this.professor.relatorioProfessor()).append("\n")
-                 .append("Alunos:\n");
-        
-        for (Aluno aluno : alunos) {
-            relatorio.append(aluno.relatorioAlunos()).append("\n"); // Certifique-se de que `relatorioAlunos` existe
-        }
-        
-        return relatorio.toString();
-    }
 }

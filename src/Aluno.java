@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public class Aluno extends Pessoa implements GerenciadorCadastroAluno {
+public class Aluno extends Pessoa implements IGerenciadorCadastroAluno {
     private String matricula;
     private int anoIngresso;
     private ArrayList<Nota> notas = new ArrayList<>();
@@ -10,6 +11,10 @@ public class Aluno extends Pessoa implements GerenciadorCadastroAluno {
         super(nome, dataNascimento, telefone, endereco);
         this.matricula = matricula;
         this.anoIngresso = anoIngresso;
+    }
+
+    public String getNome() {
+        return this.nome;
     }
 
     public String getMatricula() {
@@ -56,7 +61,7 @@ public class Aluno extends Pessoa implements GerenciadorCadastroAluno {
         return relatorio.toString();
     }
 
-    public String relatorioNotas() {
+    public String relatorioNotas() { // PODE EXCLUIR
         StringBuilder relatorio = new StringBuilder();
         for (Nota nota : notas) {
             relatorio.append("Nome: ").append(this.getNome())
@@ -68,32 +73,42 @@ public class Aluno extends Pessoa implements GerenciadorCadastroAluno {
     }
 
     @Override
-    public void CadastrarAluno() {
-        // Implementação do método
+    public void cadastrarAluno(String nome, String dataNascimento, String telefone, Endereco endereco,
+            String matricula, int anoIngresso, ArrayList<Nota> notas) {
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.matricula = matricula;
+        this.anoIngresso = anoIngresso;
+        this.notas = notas;
     }
 
-    @Override
     public String relatorioAlunos() { // Corrigido para minúscula
         StringBuilder relatorio = new StringBuilder();
 
         // Relatório de Aluno
-        relatorio.append("Relatório de Aluno:\n")
+        relatorio.append("\nRelatório de Aluno:\n")
                 .append("Nome: ").append(this.getNome()).append("\n")
                 .append("Matrícula: ").append(this.matricula).append("\n")
                 .append("Ano de Ingresso: ").append(this.anoIngresso).append("\n")
                 .append("Data de Nascimento: ").append(this.getDataNascimento()).append("\n")
                 .append("Endereço: ").append(this.getEndereco().toString()).append("\n")
                 .append("Telefone: ").append(this.getTelefone()).append("\n");
+        for (Nota nota : notas) {
+            relatorio.append(nota.getNota());
+            relatorio.append("\n");
+        }
 
         return relatorio.toString();
     }
 
-    public double getMaiorNota(){
+    public double getMaiorNota() {
         double maiorNota = 0;
         for (Nota nota : notas) {
-            if(nota.getNota() > maiorNota){
-            maiorNota = nota.getNota(); 
-        }
+            if (nota.getNota() > maiorNota) {
+                maiorNota = nota.getNota();
+            }
         }
         return maiorNota;
     }

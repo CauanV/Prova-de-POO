@@ -1,8 +1,11 @@
-import java.io.File;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
-
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.naming.NameNotFoundException;
 import javax.naming.NoPermissionException;
 
@@ -15,368 +18,466 @@ public class Main {
     ArrayList<Disciplina> disciplinas = new ArrayList<>();
     ArrayList<Professor> professores = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
+    String nome, dataNascimento, telefone, rua, cidade, estado, cep;
+    String matricula, areaDeFormacao, anoAdmissao, email, cargaHoraria, codigo;
+    Endereco endereco;
+    int anoLetivo;
 
+    File caminhoDoArquivoProfessores = new File("professores.txt");
+
+    File caminhoDoArquivoAlunos = new File("alunos.txt");
+
+    File caminhoDoArquivoDisciplinas = new File("Disciplinas.txt");
+
+    File caminhoDoArquivoTurmas = new File("Turmas.txt");
     do {
-      System.out.println("=================================");
-      System.out.println("MENU PRINCIPAL");
-      System.out.println("=================================");
-      System.out.println("1. Cadastrar Aluno");
-      System.out.println("2. Cadastrar Professor");
-      System.out.println("3. Cadastrar Disciplina");
-      System.out.println("4. Cadastrar Turma");
-      System.out.println("5. Inserir Nota");
-      System.out.println("6. Relatório Alunos");
-      System.out.println("7. Relatório Professores");
-      System.out.println("8. Relatório Disciplinas");
-      System.out.println("9. Relatório Turmas");
-      System.out.println("10. Relatório de Aluno x Notas x média");
-      System.out.println("11. Quantidade de Alunos Cadastrados");
-      System.out.println("12. Nome do aluno que possui a maior nota");
-      System.out.println("13. Listar os alunos de uma determinada disciplina");
-      System.out.println("14. Listar as turmas que estão associadas a um determinado professor");
-      System.out.println("15. Sair");
-      System.out.println("==================================");
-      System.out.print("Escolha uma opção: ");
+      try {
+        System.out.println("=================================");
+        System.out.println("MENU PRINCIPAL");
+        System.out.println("=================================");
+        System.out.println("1. Cadastrar Aluno");
+        System.out.println("2. Cadastrar Professor");
+        System.out.println("3. Cadastrar Disciplina");
+        System.out.println("4. Cadastrar Turma");
+        System.out.println("5. Inserir Nota");
+        System.out.println("6. Relatório Alunos");
+        System.out.println("7. Relatório Professores");
+        System.out.println("8. Relatório Disciplinas");
+        System.out.println("9. Relatório Turmas");
+        System.out.println("10. Relatório de Aluno x Notas x média");
+        System.out.println("11. Quantidade de Alunos Cadastrados");
+        System.out.println("12. Nome do aluno que possui a maior nota");
+        System.out.println("13. Listar os alunos de uma determinada disciplina");
+        System.out.println("14. Listar as turmas que estão associadas a um determinado professor");
+        System.out.println("15. Sair");
+        System.out.println("==================================");
+        System.out.print("Escolha uma opção: ");
+        opcao = scanner.nextInt();
+        scanner.nextLine(); // Limpa o buffer de nova linha
+        switch (opcao) {
+          case 1:
+            if (turmas.size() == 0) {
+              System.out.println("Impossível adicionar um aluno antes de ter uma turma cadastrada");
+              break;
+            }
+            System.out.println("Digite os dados do aluno:");
+            System.out.print("Nome: ");
+            nome = scanner.nextLine();
+            System.out.print("Data de nascimento: ");
+            dataNascimento = scanner.nextLine();
+            System.out.print("Telefone: ");
+            telefone = scanner.nextLine();
 
-      opcao = scanner.nextInt();
-      scanner.nextLine(); // Limpa o buffer de nova linha
-      switch (opcao) {
-        case 1:
-          // codigo para cadastrar aluno aqui **** INFORMACAO NOVA: aluno so pode ser
-          // cadastrado se ja tiver UMA TURMA CADASTRADA
-          if (turmas.size() == 0) {
-            System.out.println("Impossivel adicionar um aluno antes de ter uma turma cadastrada");
-            break;
-          }
-          System.out.println("Digite o nome do Aluno:");
-          String nome = scanner.nextLine();
-          System.out.println("Digite a data de nascimento: ");
-          String dataNascimento = scanner.nextLine();
-          System.out.println("Digite o telefone para cadastro: ");
-          String telefone = scanner.nextLine();
-          System.out.println("Digite a rua: ");
-          String rua = scanner.nextLine();
-          System.out.println("Digite a cidade o estado e o CEP: ");
-          String cidade = scanner.nextLine();
-          String estado = scanner.nextLine();
-          String cep = scanner.nextLine();
-          Endereco endereco = new Endereco(rua, cidade, estado, cep);
-          System.out.println("Digite a matricula que voce quer atribuir a ele e em seguida o ano de ingresso ");
-          String matricula = scanner.nextLine();
-          // verificar se a matricula ja
-          // existe-----------------------------------------------------------------------------------------
-          // try {
-          // for (Aluno aluno : alunos) {
-          // if (aluno.getMatricula().equalsIgnoreCase(matricula)) {
-          // throw new IllegalArgumentException("Esta matrícula já existe.");
-          // }
-          // }
-          // } catch (IllegalArgumentException e) {
-          // System.out.println(e.getMessage());
-          // }
-          // int anoIngresso = scanner.nextInt();
-          // scanner.nextLine();
-          // Aluno aluno = new Aluno(nome, dataNascimento, telefone, endereco, matricula,
-          // anoIngresso);
-          // alunos.add(aluno);
-          // System.out.println("Em qual turma este aluno sera alocado ?");
-          // for (Turma listaDeTurmas : turmas) {
-          // System.out.println(listaDeTurmas.getCodigo());
-          // }
-          // String turmaEscolhida = scanner.nextLine();
-          // for (Turma turma : turmas) {
-          // if (turma.getCodigo().equalsIgnoreCase(turmaEscolhida)) {
-          // turma.adicionaAlunos(aluno);
-          // System.out.println("**** Aluno cadastrado com sucesso ****");
-          // } else {
-          // System.out.println("Turma nao encontrada.");
-          // break;
-          // }
-          // }------------------------------------------------------------------------------------
-          while (true) {
-            try {
-              // Verificar se a matrícula já existe
-              boolean matriculaExiste = false;
-              for (Aluno aluno : alunos) {
-                if (aluno.getMatricula().equalsIgnoreCase(matricula)) {
-                  matriculaExiste = true;
-                  break; // Sai do loop se a matrícula for encontrada
+            System.out.print("Endereço (Rua, Cidade, Estado, CEP): ");
+            rua = scanner.nextLine();
+            cidade = scanner.nextLine();
+            estado = scanner.nextLine();
+            cep = scanner.nextLine();
+            endereco = new Endereco(rua, cidade, estado, cep);
+
+            boolean matriculaExistente;
+
+            // Verificar se a matrícula já existe
+            do {
+              System.out.print("Matrícula: ");
+              matricula = scanner.nextLine();
+
+              matriculaExistente = false;
+              for (Aluno a : alunos) {
+                if (a.getMatricula().equals(matricula)) {
+                  matriculaExistente = true;
+                  System.out.println("Matrícula já existente. Por favor, insira outra.");
+                  break;
                 }
               }
+            } while (matriculaExistente);
 
-              if (matriculaExiste) {
-                throw new IllegalArgumentException("Esta matrícula já existe.");
+            System.out.print("Ano de ingresso: ");
+            int anoIngresso = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer
+
+            Aluno aluno = new Aluno(nome, dataNascimento, telefone, endereco, matricula, anoIngresso);
+            alunos.add(aluno);
+
+            System.out.println("Aluno cadastrado com sucesso!");
+            System.out.println("Alunos cadastrados:");
+            for (Aluno a : alunos) {
+              System.out.println(a.relatorioAlunos());
+            }
+            try {
+              FileWriter escritor = new FileWriter(caminhoDoArquivoAlunos, true);
+              escritor.write(aluno.relatorioAlunos());
+              escritor.close();
+            } catch (IOException e) {
+              System.out.println("Erro ao acessar o arquivo para escrita");
+            }
+            // nao etou adicionando este aluno dentro de nenhuma turma
+            System.out.println("Adicionar este aluno à qual turma ? ");
+            for (Turma t : turmas) {
+              System.out.println(t.getCodigo());
+            }
+            String leituraCodigo = scanner.nextLine();
+            boolean encontr = false;
+            while (!encontr) {
+              try {
+                encontr = false;
+                for (Turma t : turmas) {
+                  if (t.getCodigo().equalsIgnoreCase(leituraCodigo)) {
+                    t.adicionaAlunos(aluno);
+                    encontr = true;
+                    break; // Interrompe o loop quando a turma for encontrada
+                  }
+                }
+                if (!encontr) {
+                  System.out.println("Código não foi encontrado");
+                }
+              } catch (Exception e) {
+                System.out.println("Ocorreu um erro: " + e.getMessage());
+              }
+            }
+            break;
+          case 2:
+            if (disciplinas.size() == 0) {
+              System.out.println("Não é possível cadastrar um professor sem pelo menos uma disciplina.");
+              break;
+            }
+
+            System.out.println("A qual disciplina você quer associar este professor? (digite o código)");
+            for (Disciplina disciplina : disciplinas) {
+              System.out.println(disciplina.getNome() + " \nCódigo: " + disciplina.getCodigo());
+            }
+
+            Disciplina disciplinaAssociada = null;
+            while (disciplinaAssociada == null) { // Continua até que uma disciplina válida seja encontrada
+              try {
+                String disciplinaProfessor = scanner.nextLine();
+
+                // Procura a disciplina escolhida pelo usuário
+                for (Disciplina disciplina : disciplinas) {
+                  if (disciplina.getCodigo().equalsIgnoreCase(disciplinaProfessor)) {
+                    disciplinaAssociada = disciplina;
+                    break;
+                  }
+                }
+
+                // Verifica se a disciplina foi encontrada
+                if (disciplinaAssociada == null) {
+                  System.err.println("Código não encontrado. Tente novamente:");
+                }
+
+              } catch (Exception e) {
+                System.out.println("Ocorreu um erro: " + e.getMessage());
+              }
+            }
+
+            // A partir daqui, você pode associar o professor à disciplina encontrada
+            System.out.println("Disciplina associada: " + disciplinaAssociada.getNome());
+
+            // Agora, começa o cadastro do professor
+            System.out.println("Digite o nome do professor:");
+            nome = scanner.nextLine();
+            System.out.println("Digite a data de nascimento: ");
+            dataNascimento = scanner.nextLine();
+            System.out.println("Digite o telefone para cadastro: ");
+            telefone = scanner.nextLine();
+            System.out.println("Digite a rua: ");
+            rua = scanner.nextLine();
+            System.out.println("Digite a cidade, estado e o CEP: ");
+            cidade = scanner.nextLine();
+            estado = scanner.nextLine();
+            cep = scanner.nextLine();
+            System.out.println("Qual a área de formação deste professor?");
+            areaDeFormacao = scanner.nextLine();
+            System.out.println("Qual o ano de admissão e o e-mail logo em seguida?");
+            anoAdmissao = scanner.nextLine();
+            email = scanner.nextLine();
+
+            endereco = new Endereco(rua, cidade, estado, cep);
+            Professor professor = new Professor(nome, dataNascimento, telefone, endereco, areaDeFormacao,
+                anoAdmissao, email, disciplinaAssociada);
+
+            professores.add(professor);
+            System.out.println("**** Professor cadastrado com sucesso. ****");
+
+            System.out.println("Você deseja associar mais disciplinas a este professor? [S ou N]");
+            String resposta = scanner.nextLine();
+
+            while (resposta.equalsIgnoreCase("S") || (resposta.equalsIgnoreCase("SIM"))) {
+              // Repetir o processo de associação de disciplina
+              System.out.println("Escolha outra disciplina para associar a este professor: ");
+              for (Disciplina disciplina : disciplinas) {
+                System.out.println(disciplina.getNome() + " \nCódigo: " + disciplina.getCodigo());
               }
 
-              // Se a matrícula não existir, solicita o ano de ingresso e cria o aluno
-              System.out.println("Digite o ano de ingresso do aluno:");
-              int anoIngresso = scanner.nextInt();
-              scanner.nextLine(); // Consumir o buffer do scanner
+              String novaDisciplinaProfessor = scanner.nextLine();
+              Disciplina novaDisciplina = null;
 
-              Aluno aluno = new Aluno(nome, dataNascimento, telefone, endereco, matricula, anoIngresso);
-              alunos.add(aluno);
-
-              System.out.println("Em qual turma este aluno será alocado?");
-              for (Turma listaDeTurmas : turmas) {
-                System.out.println(listaDeTurmas.getCodigo());
-              }
-
-              String turmaEscolhida = scanner.nextLine();
-              boolean turmaEncontrada = false;
-              for (Turma turma : turmas) {
-                if (turma.getCodigo().equalsIgnoreCase(turmaEscolhida)) {
-                  turma.adicionaAlunos(aluno);
-                  System.out.println("**** Aluno cadastrado com sucesso ****");
-                  turmaEncontrada = true;
+              // Procura a nova disciplina
+              for (Disciplina disciplina : disciplinas) {
+                if (disciplina.getCodigo().equalsIgnoreCase(novaDisciplinaProfessor)) {
+                  novaDisciplina = disciplina;
                   break;
                 }
               }
 
-              if (!turmaEncontrada) {
-                System.out.println("Turma não encontrada.");
+              // Verifica se a nova disciplina foi encontrada
+              if (novaDisciplina == null) {
+                System.err.println("Não foi encontrada a disciplina.");
+              } else {
+                // Associa a nova disciplina ao professor
+                professor.adicionaDisciplinas(novaDisciplina); // Aqui, você pode usar o método que já tem para
+                                                               // adicionar a disciplina
+                System.out.println("Disciplina associada com sucesso!");
               }
-              break; // Sai do loop quando tudo estiver correto
 
-            } catch (IllegalArgumentException e) {
-              // Se a matrícula já existir, pede uma nova matrícula
-              System.out.println(e.getMessage());
-              System.out.println("Digite a matrícula que você quer atribuir a ele:");
-              matricula = scanner.nextLine(); // Atualiza a variável matricula
+              // Pergunta novamente se o usuário quer associar mais disciplinas
+              System.out.println("Deseja associar mais disciplinas a este professor? [S ou N]");
+              resposta = scanner.nextLine();
+              try {
+                FileWriter escritor = new FileWriter(caminhoDoArquivoProfessores, true);
+                escritor.write(professor.relatorioProfessor());
+                escritor.close();
+              } catch (IOException e) {
+                System.out.println("Erro ao acessar o arquivo para escrita");
+              }
             }
-          }
-          break;
-        case 2:
-          // codigo para cadastrar professor
-          if (disciplinas.size() == 0) {
-            System.out.println("Nao e possivel cadastrar um professor se nao tiver pelo menos 1 disciplina.");
             break;
-          } else {
-            System.out.println("A qual disciplina voce quer associar este professor? (digite o codigo)");
-            for (Disciplina disciplina : disciplinas) {
-              System.out.println(disciplina.getNome() + " \nCódigo: " + disciplina.getCodigo());
+          case 3:
+            System.out.println("Informe o nome da disciplina:");
+            nome = scanner.nextLine();
+            System.out.println("Informe a carga horaria da disciplina:");
+            cargaHoraria = scanner.nextLine();
+            codigo = String.valueOf(disciplinas.size() + 1);
+            Disciplina disciplina = new Disciplina(nome, cargaHoraria, codigo);
+            if (disciplina != null) {
+              System.out.println("**** DISCIPLINA CADASTRADA COM SUCESSO ****");
             }
-            String disciplinaProfessor = scanner.nextLine(); // lendo o codigo da disciplina
-            Disciplina disciplinaAssociada = null;
-            for (Disciplina disciplina : disciplinas) {
-              if (disciplina.getCodigo().equalsIgnoreCase(disciplinaProfessor)) {
-                disciplinaAssociada = disciplina;
-                break;
-              }
-            }
-            // Verifica se a disciplina foi encontrada
-            if (disciplinaAssociada == null) {
-              System.err.println("Não foi encontrada tal disciplina.");
-              break; // Encerra o case 2 se não for encontrada
-            }
-            System.out.println("Digite o nome do professor:");
-            String nomeP = scanner.nextLine();
-            System.out.println("Digite a data de nascimento: ");
-            String dataNascimentoP = scanner.nextLine();
-            System.out.println("Digite o telefone para cadastro: ");
-            String telefoneP = scanner.nextLine();
-            System.out.println("Digite a rua: ");
-            String ruaP = scanner.nextLine();
-            System.out.println("Digite a cidade o estado e o CEP: ");
-            String cidadeP = scanner.nextLine();
-            String estadoP = scanner.nextLine();
-            String cepP = scanner.nextLine();
-            System.out.println("Qual a area de formacao deste professor");
-            String areaDeFormacao = scanner.nextLine();
-            System.out.println("qual o ano Admissao e o email logo em seguida");
-            String anoAdmissao = scanner.nextLine();
-            String email = scanner.nextLine();
-            Endereco enderecoP = new Endereco(ruaP, cidadeP, estadoP, cepP);
-            Professor professor = new Professor(nomeP, dataNascimentoP, telefoneP, enderecoP, areaDeFormacao,
-                anoAdmissao, email, disciplinaAssociada);
-            if (professor != null) {
-              System.out.println("**** Professor cadastrado com sucesso. ****");
-            }
-            professores.add(professor);
-          }
-          break;
-        case 3:
-          // Cadastrar Disciplina
-          System.out.println("Informe o nome da disciplina:");
-          String nomeD = scanner.nextLine();
-          System.out.println("Informe a carga horaria da disciplina:");
-          String cargaHoraria = scanner.nextLine();
-          String codigoD = String.valueOf(disciplinas.size() + 1);
-          Disciplina disciplina = new Disciplina(nomeD, cargaHoraria, codigoD);
-          if (disciplina != null) {
-            System.out.println("**** DISCIPLINA CADASTRADA COM SUCESSO ****");
-          }
-          disciplinas.add(disciplina);
-          break;
-
-        case 4:
-          // cadastrar turma --- primeiro passo é verificar se tem disciplinas e
-          // professores disponiveis (ja cadastrados)
-          if (disciplinas.isEmpty() || professores.isEmpty()) {
+            disciplinas.add(disciplina);
             try {
-              throw new NoPermissionException(
-                  "Para cadastrar uma turma, é necessário ter pelo menos uma disciplina e um professor cadastrados.");
-            } catch (NoPermissionException e) {
-              System.out.println(e.getMessage());
-              break; // Sai do case, pois não é possível cadastrar a turma
+              FileWriter escritor = new FileWriter(caminhoDoArquivoDisciplinas, true);
+              escritor.write(disciplina.relatorioDisciplina());
+              escritor.close();
+            } catch (IOException e) {
+              System.out.println("Erro ao acessar o arquivo para escrita");
             }
-          }
-          // caso tenha, continuar o cadastro
-          System.out.println("Informe o ano letivo da turma:");
-          int anoLetivo = scanner.nextInt();
-          scanner.nextLine();
-          System.out.println("Selecione a disciplina para a turma: (digite o codigo da disciplina)");
-          for (Disciplina d : disciplinas) {
-            System.out.println("DISCIPLINA: " + d.getNome() + " CODIGO: " + d.getCodigo() + "\n");
-          }
-          String codigoDiscSelecionada = scanner.nextLine();
-          Disciplina discEscolhida = null;
-          for (Disciplina d : disciplinas) {
-            if (d.getCodigo().equalsIgnoreCase(codigoDiscSelecionada)) {
-              discEscolhida = d;
-            }
-          }
-          // agora eu preciso de um professor, uma vez que a disciplina ja esta
-          // selecionada (discEscolhida)
-          System.out.println("Selecione o professor para a turma: (digite o nome)");
-          for (Professor p : professores) {
-            System.out.println(p.getNome() + " \n");
-          }
-          String nomeProfessorSelecionado = scanner.nextLine();
-          Professor professorEscolhido = null;
-          for (Professor p : professores) {
-            if (p.getNome().equalsIgnoreCase(nomeProfessorSelecionado)) {
-              professorEscolhido = p;// agora eu tambem tenho o professor
-            }
-          }
-          String codigoTurma = String.valueOf(turmas.size() + 1);
-          Turma turma = new Turma(anoLetivo, codigoTurma, discEscolhida, professorEscolhido);
-          if (turma != null) {
-            System.out.println("**** TURMA CADASTRADA COM SUCESSO ****");
-          }
-          turmas.add(turma);
-          break;
-
-        case 5:
-          // inserir nota
-          System.out.println("Qual o valor da nota: ");
-          double valor = scanner.nextDouble();
-          scanner.nextLine();
-          System.out.println("Dar nota a qual aluno: (digite o nome)");
-          for (Aluno percorreAluno : alunos) {
-            System.out.println(percorreAluno.getNome());
-          }
-          String NotaQualAluno = scanner.nextLine();
-          // verificar se este aluno existe
-          boolean encontrado = false;
-          for (Aluno percorreAluno : alunos) {
-            if (percorreAluno.getNome().equalsIgnoreCase(NotaQualAluno)) {
-              encontrado = true;
-              System.out.println("Qual a data de lancamento desta nota: ");
-              String LancDataNota = scanner.nextLine();
-              Nota nota = new Nota(valor, LancDataNota);
-              percorreAluno.adicionarNota(nota);
-              System.out.println("**** NOTA ADICIONADA COM SUCESSO ****");
-              break;
-            }
-          }
-          if (!encontrado) {
-            System.out.println("Aluno nao encontrado");
-          }
-          break;
-        case 6:
-          // relatorio de alunos
-          for (Aluno alun : alunos) {
-            System.out.println(alun.relatorioAlunos());
-          }
-          break;
-        case 7:
-          // relatorio professores
-          for (Professor professor : professores) {
-            System.out.println(professor.relatorioProfessor());
-            System.out.println("*******************************");
-          }
-          break;
-        case 8:
-          // relatorio de disciplinas
-          for (Disciplina percorreDisciplina : disciplinas) {
-            System.out.println(percorreDisciplina.relatorioDisciplina());
-          }
-          break;
-        case 9:
-          // relatorio de turmas
-          for (Turma percorreTurma : turmas) {
-            System.out.println(percorreTurma.relatorioTurmas());
-          }
-          break;
-        case 10:
-          for (Aluno percorreAluno : alunos) {
-            System.out.println(percorreAluno.relatorioAlunoNotasMedia());
-          }
-          break;
-        case 11:
-          // quantidade de alunos cadastrados
-          System.out.println(alunos.size());
-          break;
-        case 12:
-          double maiorNota = 0;
-          String nomeMaiorNota = "";
-          for (Aluno al : alunos) {
-            if (al.getMaiorNota() > maiorNota) {
-              nomeMaiorNota = al.getNome();
-              maiorNota = al.getMaiorNota();
-            }
-          }
-          System.out.println("ALUNO DE MAIOR NOTA: " + nomeMaiorNota + " | NOTA: ");
-          System.out.printf("%.2f\n", maiorNota);
-          break;
-        case 13:
-          System.out.println("Informe a disciplina que deseja visualizar:");
-          String nomeDisciplina = scanner.nextLine();
-          boolean encont = false;
-
-          try {
-            // Loop para procurar a disciplina
-            for (Turma t : turmas) {
-              if (t.getDisciplina().getNome().equalsIgnoreCase(nomeDisciplina)) {
-                encont = true;
-                // Listando alunos da disciplina
-                for (Aluno a : t.getAlunos()) {// talvez trocar aluno por arraylist aluno
-                  System.out.println("Nome: " + a.getNome() + " | Matrícula: " + a.getMatricula());
+            break;
+          case 4:
+            anoLetivo = 0;
+            while (anoLetivo <= 0) {
+              try {
+                System.out.println("Informe o ano letivo da turma:");
+                anoLetivo = scanner.nextInt();
+                scanner.nextLine(); // Limpar o buffer
+                if (anoLetivo <= 0) {
+                  System.out.println("Ano letivo inválido. Tente novamente.");
                 }
-                break; // Se encontrar a disciplina, sai do loop
+              } catch (Exception e) {
+                System.out.println("Entrada inválida. Digite um número para o ano letivo.");
+                scanner.nextLine(); // Limpar o
               }
             }
 
-            // Se a disciplina não for encontrada, lança a exceção
-            if (!encont) {
-              throw new NameNotFoundException("Disciplina " + nomeDisciplina + " não está cadastrada!");
+            Disciplina discEscolhida = null;
+            while (discEscolhida == null) {
+              System.out.println("Selecione a disciplina para a turma: (digite o código da disciplina)");
+              for (Disciplina d : disciplinas) {
+                System.out.println("DISCIPLINA: " + d.getNome() + " CODIGO: " + d.getCodigo());
+              }
+
+              String codigoDiscSelecionada = scanner.nextLine();
+              for (Disciplina d : disciplinas) {
+                if (d.getCodigo().equalsIgnoreCase(codigoDiscSelecionada)) {
+                  discEscolhida = d;
+                  break;
+                }
+              }
+              if (discEscolhida == null) {
+                System.out.println("Código da disciplina não encontrado. Tente novamente.");
+              }
             }
 
-          } catch (NameNotFoundException e) {
-            // Captura a exceção e imprime a mensagem de erro
-            System.out.println("Erro: " + e.getMessage());
-          }
-          break;
-        case 14:
-          System.out.println("Informe o nome do professor que deseja consultar:");
-          String nomeProfessor = scanner.nextLine();
-          boolean encontrad = false;
-          System.out.println("Turmas do professor " + nomeProfessor + ":");
-          for (Turma t : turmas) {
-            if (t.getProfessor().getNome().equalsIgnoreCase(nomeProfessor)) {
-              System.out.println("- " + t.getCodigo());
-              encontrad = true;
+            // imprime pro usuario os professores apenas da disciplina escolhida
+            Professor professorEscolhido = null;
+            if (discEscolhida != null) {
+              while (professorEscolhido == null) {
+                System.out.println("Selecione o professor para a turma: (digite o nome)");
+
+                // Filtra os professores da disciplina escolhida
+                List<Professor> professoresDaDisciplina = new ArrayList<>();
+                for (Professor p : professores) {
+                  if (p.getDisciplinas().contains(discEscolhida)) {
+                    professoresDaDisciplina.add(p);
+                    System.out.println("PROFESSOR: " + p.getNome());
+                  }
+                }
+
+                if (professoresDaDisciplina.isEmpty()) {
+                  System.out.println("Nenhum professor encontrado para essa disciplina.");
+                  break; // Encerra caso não haja professor disponível para a disciplina
+                }
+
+                String nomeProfessorSelecionado = scanner.nextLine();
+                for (Professor p : professoresDaDisciplina) {
+                  if (p.getNome().equalsIgnoreCase(nomeProfessorSelecionado)) {
+                    professorEscolhido = p;
+                    break;
+                  }
+                }
+                if (professorEscolhido == null) {
+                  System.out.println("Nome do professor não encontrado. Tente novamente.");
+                }
+              }
             }
-          }
-          if (!encontrad) {
-            System.out.println("Nenhuma turma encontrada para o professor " + nomeProfessor + ".");
-          }
-          scanner.close();
-          break;
-        case 15:
-          System.out.println("ENCERRANDO O PROGRAMA.....");
-          continuar = false;
-          break;
+
+            // Criar e adicionar a turma
+            String codigoTurma = String.valueOf(turmas.size() + 1);
+            Turma turma = new Turma(anoLetivo, codigoTurma, discEscolhida,
+                professorEscolhido);
+            turmas.add(turma);
+            System.out.println("**** TURMA CADASTRADA COM SUCESSO ****");
+
+            try {
+              FileWriter escritor = new FileWriter(caminhoDoArquivoTurmas, true);
+              escritor.write(turma.relatorioTurmas());
+              escritor.close();
+            } catch (IOException e) {
+              System.out.println("Erro ao acessar o arquivo para escrita");
+            }
+
+            break;
+          case 5:
+            if (alunos.size() == 0) {
+              System.out.println("Impossivel cadastrar notas antes de alunos");
+              break;
+            } else {
+              System.out.println("Qual o valor da nota: ");
+              double valor = scanner.nextDouble();
+              scanner.nextLine();
+              System.out.println("Dar nota a qual aluno: (digite o nome)");
+              for (Aluno percorreAluno : alunos) {
+                System.out.println(percorreAluno.getNome());
+              }
+              String NotaQualAluno = scanner.nextLine();
+              boolean encontrado = false;
+              while (true) {
+                try {
+                  // Procurar o aluno
+                  for (Aluno percorreAluno : alunos) {
+                    if (percorreAluno.getNome().equalsIgnoreCase(NotaQualAluno)) {
+                      encontrado = true;
+                      System.out.println("Qual a data de lançamento desta nota: ");
+                      String LancDataNota = scanner.nextLine();
+                      Nota nota = new Nota(valor, LancDataNota);
+                      percorreAluno.adicionarNota(nota);
+                      System.out.println("**** NOTA ADICIONADA COM SUCESSO ****");
+                      break;
+                    }
+                  }
+
+                  if (!encontrado) {
+                    System.out.println("ESTE ALUNO NAO FOI ENCONTRADO.");
+                  } else {
+                    break;
+                  }
+                } catch (Exception e) {
+                  // Captura exceções gerais (se houver)
+                  System.out.println("Ocorreu um erro: " + e.getMessage());
+                }
+              }
+            }
+            break;
+          case 6:
+            for (Aluno alun : alunos) {
+              System.out.println(alun.relatorioAlunos());
+            }
+            break;
+          case 7:
+            for (Professor p : professores) {
+              System.out.println(p.relatorioProfessor());
+              System.out.println("*******************************");
+            }
+            break;
+          case 8:
+            for (Disciplina percorreDisciplina : disciplinas) {
+              System.out.println(percorreDisciplina.relatorioDisciplina());
+            }
+            break;
+          case 9:
+            for (Turma percorreTurma : turmas) {
+              System.out.println(percorreTurma.relatorioTurmas());
+            }
+            break;
+          case 10:
+            for (Aluno percorreAluno : alunos) {
+              System.out.println(percorreAluno.relatorioAlunoNotasMedia());
+            }
+            break;
+          case 11:
+            System.out.println(alunos.size());
+            break;
+          case 12:
+            double maiorNota = 0;
+            String nomeMaiorNota = "";
+            for (Aluno al : alunos) {
+              if (al.getMaiorNota() > maiorNota) {
+                nomeMaiorNota = al.getNome();
+                maiorNota = al.getMaiorNota();
+              }
+            }
+            System.out.println("ALUNO DE MAIOR NOTA: " + nomeMaiorNota + " | NOTA: ");
+            System.out.printf("%.2f\n", maiorNota);
+            break;
+          case 13:
+            System.out.println("Informe a disciplina que deseja visualizar:");
+            String nomeDisciplina = scanner.nextLine();
+            boolean encont = false;
+
+            try {
+              // Loop para procurar a disciplina
+              for (Turma t : turmas) {
+                if (t.getDisciplina().getNome().equalsIgnoreCase(nomeDisciplina)) {
+                  encont = true;
+                  // Listando alunos da disciplina
+                  for (Aluno a : t.getAlunos()) {
+                    System.out.println("Nome: " + a.getNome() + " | Matrícula: " + a.getMatricula());
+                  }
+                  break;
+                }
+              }
+              if (!encont) {
+                throw new NameNotFoundException("Disciplina " + nomeDisciplina + " não está cadastrada!");
+              }
+
+            } catch (NameNotFoundException e) {
+              System.out.println("Erro: " + e.getMessage());
+            }
+            break;
+          case 14:
+            boolean encontrado = false;
+            System.out.println("Informe o nome do professor que deseja consultar:");
+            String nomeProfessor = scanner.nextLine();
+            System.out.println("Turmas do professor " + nomeProfessor + ":");
+            for (Turma t : turmas) {
+              if (t.getProfessor().getNome().equalsIgnoreCase(nomeProfessor)) {
+                System.out.println("CODIGO DA TURMA: " + t.getCodigo());
+                encontrado = true;
+              }
+            }
+            // Caso não tenha encontrado nenhuma turma para o professor
+            if (!encontrado) {
+              System.out.println("Nenhuma turma encontrada para o professor " + nomeProfessor + ".");
+            }
+            break;
+          case 15:
+            System.out.println("ENCERRANDO O PROGRAMA.....");
+            continuar = false;
+            break;
+          default:
+            System.out.println("Opção inválida. Tente novamente.");
+        }
+      } catch (InputMismatchException ex) {
+        System.out.println("Número digitado não corresponde a um inteiro.");
+        scanner.nextLine(); // Limpa o buffer
       }
     } while (continuar);
     scanner.close();
