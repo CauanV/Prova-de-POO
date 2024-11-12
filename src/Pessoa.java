@@ -1,10 +1,10 @@
 abstract class Pessoa {
-    String nome;
-    String dataNascimento;
-    String telefone;
-    Endereco endereco;
+    protected String nome;
+    protected String dataNascimento;
+    protected String telefone;
+    protected Endereco endereco;
 
-    public Pessoa(String nome,String dataNascimento,String telefone,Endereco endereco){
+    public Pessoa(String nome, String dataNascimento, String telefone, Endereco endereco) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.telefone = telefone;
@@ -26,7 +26,4 @@ abstract class Pessoa {
     public Endereco getEndereco() {
         return endereco;
     }
-
-    
 }
-

@@ -1,16 +1,12 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Aluno extends Pessoa implements IGerenciadorCadastroAluno {
     private String matricula;
     private int anoIngresso;
     private ArrayList<Nota> notas = new ArrayList<>();
 
-    public Aluno(String nome, String dataNascimento, String telefone, Endereco endereco, String matricula,
-            int anoIngresso) {
+    public Aluno(String nome, String dataNascimento, String telefone, Endereco endereco) {
         super(nome, dataNascimento, telefone, endereco);
-        this.matricula = matricula;
-        this.anoIngresso = anoIngresso;
     }
 
     public String getNome() {
@@ -52,6 +48,7 @@ public class Aluno extends Pessoa implements IGerenciadorCadastroAluno {
         for (Nota nota : this.notas) {
             relatorio.append(" - Nota: ").append(nota.getNota())
                     .append(" | Data: ").append(nota.getData())
+                    .append(" | Disciplina: ").append(nota.getDisciplina().getNome())
                     .append("\n");
         }
 
@@ -61,27 +58,10 @@ public class Aluno extends Pessoa implements IGerenciadorCadastroAluno {
         return relatorio.toString();
     }
 
-    public String relatorioNotas() { // PODE EXCLUIR
-        StringBuilder relatorio = new StringBuilder();
-        for (Nota nota : notas) {
-            relatorio.append("Nome: ").append(this.getNome())
-                    .append("\tMatrícula: ").append(this.matricula)
-                    .append("\tNota: ").append(nota.getNota())
-                    .append("\n");
-        }
-        return relatorio.toString();
-    }
-
     @Override
-    public void cadastrarAluno(String nome, String dataNascimento, String telefone, Endereco endereco,
-            String matricula, int anoIngresso, ArrayList<Nota> notas) {
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.telefone = telefone;
-        this.endereco = endereco;
+    public void cadastrarAluno(String matricula, int anoIngresso) {
         this.matricula = matricula;
         this.anoIngresso = anoIngresso;
-        this.notas = notas;
     }
 
     public String relatorioAlunos() { // Corrigido para minúscula

@@ -1,18 +1,13 @@
 import java.util.ArrayList;
 
 public class Professor extends Pessoa implements IGerenciadorCadastroProfessor {
-    String areaDeFormacao;
-    String anoAdmissao;
-    String email;
-    ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
+    private String areaDeFormacao;
+    private String anoAdmissao;
+    private String email;
+    private ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
 
-    public Professor(String nome, String dataNascimento, String telefone, Endereco endereco, String areaDeFormacao,
-            String anoAdmissao, String email, Disciplina disciplina) {
+    public Professor(String nome, String dataNascimento, String telefone, Endereco endereco) {
         super(nome, dataNascimento, telefone, endereco);
-        this.areaDeFormacao = areaDeFormacao;
-        this.anoAdmissao = anoAdmissao;
-        this.email = email;
-        disciplinas.add(disciplina);
     }
 
     public String getNome() {
@@ -57,16 +52,11 @@ public class Professor extends Pessoa implements IGerenciadorCadastroProfessor {
     }
 
     @Override
-    public void cadastrarProfessor(String nome, String dataNascimento, String telefone, Endereco endereco,
-            String areaDeFormacao, String anoAdmissao, String email, ArrayList<Disciplina> disciplinas) {
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.telefone = telefone;
-        this.endereco = endereco;
+    public void cadastrarProfessor(String areaDeFormacao, String anoAdmissao, String email, Disciplina disciplina) {
         this.areaDeFormacao = areaDeFormacao;
         this.anoAdmissao = anoAdmissao;
         this.email = email;
-        this.disciplinas = disciplinas;
+        disciplinas.add(disciplina);
     }
 
 }

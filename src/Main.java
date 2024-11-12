@@ -2,12 +2,10 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.naming.NameNotFoundException;
-import javax.naming.NoPermissionException;
 
 public class Main {
   public static void main(String[] args) {
@@ -17,6 +15,7 @@ public class Main {
     ArrayList<Aluno> alunos = new ArrayList<>();
     ArrayList<Disciplina> disciplinas = new ArrayList<>();
     ArrayList<Professor> professores = new ArrayList<>();
+    ArrayList<Nota> notas = new ArrayList<Nota>();
     Scanner scanner = new Scanner(System.in);
     String nome, dataNascimento, telefone, rua, cidade, estado, cep;
     String matricula, areaDeFormacao, anoAdmissao, email, cargaHoraria, codigo;
@@ -68,10 +67,13 @@ public class Main {
             System.out.print("Telefone: ");
             telefone = scanner.nextLine();
 
-            System.out.print("Endereço (Rua, Cidade, Estado, CEP): ");
+            System.out.print("Endereço Rua: ");
             rua = scanner.nextLine();
+            System.out.print("Cidade: ");
             cidade = scanner.nextLine();
+            System.out.print("Estado: ");
             estado = scanner.nextLine();
+            System.out.print("CEP: ");
             cep = scanner.nextLine();
             endereco = new Endereco(rua, cidade, estado, cep);
 
@@ -96,14 +98,11 @@ public class Main {
             int anoIngresso = scanner.nextInt();
             scanner.nextLine(); // Limpar o buffer
 
-            Aluno aluno = new Aluno(nome, dataNascimento, telefone, endereco, matricula, anoIngresso);
+            Aluno aluno = new Aluno(nome, dataNascimento, telefone, endereco);
+            aluno.cadastrarAluno(matricula, anoIngresso);
             alunos.add(aluno);
 
             System.out.println("Aluno cadastrado com sucesso!");
-            System.out.println("Alunos cadastrados:");
-            for (Aluno a : alunos) {
-              System.out.println(a.relatorioAlunos());
-            }
             try {
               FileWriter escritor = new FileWriter(caminhoDoArquivoAlunos, true);
               escritor.write(aluno.relatorioAlunos());
@@ -180,12 +179,15 @@ public class Main {
             dataNascimento = scanner.nextLine();
             System.out.println("Digite o telefone para cadastro: ");
             telefone = scanner.nextLine();
-            System.out.println("Digite a rua: ");
+            System.out.print("Endereço Rua: ");
             rua = scanner.nextLine();
-            System.out.println("Digite a cidade, estado e o CEP: ");
+            System.out.print("Cidade: ");
             cidade = scanner.nextLine();
+            System.out.print("Estado: ");
             estado = scanner.nextLine();
+            System.out.print("CEP: ");
             cep = scanner.nextLine();
+            endereco = new Endereco(rua, cidade, estado, cep);
             System.out.println("Qual a área de formação deste professor?");
             areaDeFormacao = scanner.nextLine();
             System.out.println("Qual o ano de admissão e o e-mail logo em seguida?");
@@ -193,8 +195,8 @@ public class Main {
             email = scanner.nextLine();
 
             endereco = new Endereco(rua, cidade, estado, cep);
-            Professor professor = new Professor(nome, dataNascimento, telefone, endereco, areaDeFormacao,
-                anoAdmissao, email, disciplinaAssociada);
+            Professor professor = new Professor(nome, dataNascimento, telefone, endereco);
+            professor.cadastrarProfessor(areaDeFormacao, anoAdmissao, email, disciplinaAssociada);
 
             professores.add(professor);
             System.out.println("**** Professor cadastrado com sucesso. ****");
@@ -343,47 +345,72 @@ public class Main {
             } catch (IOException e) {
               System.out.println("Erro ao acessar o arquivo para escrita");
             }
-
             break;
           case 5:
             if (alunos.size() == 0) {
-              System.out.println("Impossivel cadastrar notas antes de alunos");
+              System.out.println("Impossível cadastrar notas antes de alunos.");
               break;
             } else {
               System.out.println("Qual o valor da nota: ");
               double valor = scanner.nextDouble();
               scanner.nextLine();
-              System.out.println("Dar nota a qual aluno: (digite o nome)");
+              System.out.println("Qual a data de lançamento desta nota: ");
+              String LancDataNota = scanner.nextLine();
+
+              System.out.println("Dar nota a qual aluno? (Digite o nome)");
               for (Aluno percorreAluno : alunos) {
                 System.out.println(percorreAluno.getNome());
               }
               String NotaQualAluno = scanner.nextLine();
-              boolean encontrado = false;
-              while (true) {
-                try {
-                  // Procurar o aluno
-                  for (Aluno percorreAluno : alunos) {
-                    if (percorreAluno.getNome().equalsIgnoreCase(NotaQualAluno)) {
-                      encontrado = true;
-                      System.out.println("Qual a data de lançamento desta nota: ");
-                      String LancDataNota = scanner.nextLine();
-                      Nota nota = new Nota(valor, LancDataNota);
-                      percorreAluno.adicionarNota(nota);
-                      System.out.println("**** NOTA ADICIONADA COM SUCESSO ****");
-                      break;
-                    }
-                  }
+              boolean alunoEncontrado = false;
+              Aluno alunoNota = null;
 
-                  if (!encontrado) {
-                    System.out.println("ESTE ALUNO NAO FOI ENCONTRADO.");
-                  } else {
-                    break;
-                  }
-                } catch (Exception e) {
-                  // Captura exceções gerais (se houver)
-                  System.out.println("Ocorreu um erro: " + e.getMessage());
+              // Procurar o aluno
+              for (Aluno percorreAluno : alunos) {
+                if (percorreAluno.getNome().equalsIgnoreCase(NotaQualAluno)) {
+                  alunoEncontrado = true;
+                  alunoNota = percorreAluno;
+                  System.out.println("\nAssociado ao aluno com sucesso!");
+                  break;
                 }
               }
+
+              if (!alunoEncontrado) {
+                System.out.println("ESTE ALUNO NÃO FOI ENCONTRADO.");
+                break;
+              }
+
+              // Selecionar disciplina
+              System.out.println("\nAssocie a disciplina: [Digite o código]");
+              for (Disciplina discAuxiliar : disciplinas) {
+                System.out.println("Código: " + discAuxiliar.getCodigo() + " Nome: " + discAuxiliar.getNome());
+              }
+
+              String respost = scanner.nextLine(); // Captura o código da disciplina
+              boolean disciplinaEncontrada = false;
+              Disciplina disciplinaNota = null;
+
+              for (Disciplina auxiliar : disciplinas) {
+                if (respost.equals(auxiliar.getCodigo())) { // Comparação correta de String
+                  disciplinaNota = auxiliar;
+                  disciplinaEncontrada = true;
+                  System.out.println("\nDisciplina associada com sucesso!");
+                  break;
+                }
+              }
+
+              if (!disciplinaEncontrada) {
+                System.out.println("\nDigite uma disciplina válida!");
+              } else {
+                // Criar a nota e associar ao aluno e disciplina
+                Nota nota = new Nota(valor, LancDataNota, alunoNota, disciplinaNota);
+                notas.add(nota);
+                alunoNota.adicionarNota(nota);
+                System.out.println("**** NOTA ADICIONADA COM SUCESSO ****");
+                System.out.println("\n" + nota.getNota() + "\n" + nota.getData() + "\n" + nota.getAluno().getNome()
+                    + "\n" + nota.getDisciplina().getNome());
+              }
+
             }
             break;
           case 6:

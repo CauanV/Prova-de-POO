@@ -1,0 +1,40 @@
+
+Relatório de Aluno:
+Nome: CAUAN	
+Matrícula: 123
+Ano de Ingresso: 2023
+Data de Nascimento: 18090003
+Endereço: Cidade: 123123 | Estado: 1231232 | CEP: 12321321
+Telefone: 344444
+
+Relatório de Aluno:
+Nome: cauan
+Matrícula: 1233
+Ano de Ingresso: 2023
+Data de Nascimento: 0111
+Endereço: Cidade: 123 | Estado: 123 | CEP: 123
+Telefone: 23
+
+Relatório de Aluno:
+Nome: cauan
+Matrícula: 123
+Ano de Ingresso: 2023
+Data de Nascimento: vicktor
+Endereço: Cidade: lima | Estado: mg | CEP: 38160
+Telefone: cardoso
+
+Relatório de Aluno:
+Nome: cauan
+Matrícula: 234
+Ano de Ingresso: 2023
+Data de Nascimento: vicktor
+Endereço: Cidade: lima | Estado: 123 | CEP: 123
+Telefone: cardoso
+
+Relatório de Aluno:
+Nome: pietro
+Matrícula: 333333
+Ano de Ingresso: 2023
+Data de Nascimento: 01121
+Endereço: Cidade: 345 | Estado: 546 | CEP: 45645
+Telefone: 1231
