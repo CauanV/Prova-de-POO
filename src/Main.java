@@ -3,12 +3,15 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.naming.NameNotFoundException;
+import java.io.BufferedReader;
 
 public class Main {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws FileNotFoundException {
     int opcao;
     boolean continuar = true;
     ArrayList<Turma> turmas = new ArrayList<>();
@@ -21,6 +24,9 @@ public class Main {
     String matricula, areaDeFormacao, anoAdmissao, email, cargaHoraria, codigo;
     Endereco endereco;
     int anoLetivo;
+    Nota nota;
+    Scanner leituraArquivo;
+    ArrayList<String> textoArquivo = new ArrayList<String>();
 
     File caminhoDoArquivoProfessores = new File("professores.txt");
 
@@ -29,6 +35,9 @@ public class Main {
     File caminhoDoArquivoDisciplinas = new File("Disciplinas.txt");
 
     File caminhoDoArquivoTurmas = new File("Turmas.txt");
+
+    File caminhoDoArquivoNotas = new File("Notas.txt");
+
     do {
       try {
         System.out.println("=================================");
@@ -403,7 +412,7 @@ public class Main {
                 System.out.println("\nDigite uma disciplina válida!");
               } else {
                 // Criar a nota e associar ao aluno e disciplina
-                Nota nota = new Nota(valor, LancDataNota, alunoNota, disciplinaNota);
+                nota = new Nota(valor, LancDataNota, alunoNota, disciplinaNota);
                 notas.add(nota);
                 alunoNota.adicionarNota(nota);
                 System.out.println("**** NOTA ADICIONADA COM SUCESSO ****");
@@ -414,24 +423,71 @@ public class Main {
             }
             break;
           case 6:
-            for (Aluno alun : alunos) {
-              System.out.println(alun.relatorioAlunos());
+            leituraArquivo = new Scanner(caminhoDoArquivoAlunos);
+            if (caminhoDoArquivoAlunos.exists()) {
+              try {
+                while (leituraArquivo.hasNextLine()) {
+                  textoArquivo.add(leituraArquivo.nextLine());
+                }
+                leituraArquivo.close();
+              } catch (Exception e) {
+                System.out.println("Erro ao acessar o arquivo para leitura" + e.getMessage());
+              }
+              System.out.println("RELATORIO: ");
+              for (String i : textoArquivo) {
+                System.out.println(i + "\n ");
+              }
             }
             break;
           case 7:
-            for (Professor p : professores) {
-              System.out.println(p.relatorioProfessor());
-              System.out.println("*******************************");
+            leituraArquivo = new Scanner(caminhoDoArquivoProfessores);
+            if (caminhoDoArquivoProfessores.exists()) {
+              try {
+                while (leituraArquivo.hasNextLine()) {
+                  textoArquivo.add(leituraArquivo.nextLine());
+                }
+                leituraArquivo.close();
+              } catch (Exception e) {
+                System.out.println("Erro ao acessar o arquivo para leitura" + e.getMessage());
+              }
+              System.out.println("RELATORIO: ");
+              for (String i : textoArquivo) {
+                System.out.println(i + "\n ");
+              }
             }
             break;
           case 8:
-            for (Disciplina percorreDisciplina : disciplinas) {
-              System.out.println(percorreDisciplina.relatorioDisciplina());
+            leituraArquivo = new Scanner(caminhoDoArquivoDisciplinas);
+            if (caminhoDoArquivoDisciplinas.exists()) {
+              try {
+                while (leituraArquivo.hasNextLine()) {
+                  textoArquivo.add(leituraArquivo.nextLine());
+                }
+                leituraArquivo.close();
+              } catch (Exception e) {
+                System.out.println("Erro ao acessar o arquivo para leitura" + e.getMessage());
+              }
+              System.out.println("RELATORIO: ");
+              for (String i : textoArquivo) {
+                System.out.println(i + "\n ");
+              }
             }
             break;
           case 9:
-            for (Turma percorreTurma : turmas) {
-              System.out.println(percorreTurma.relatorioTurmas());
+            leituraArquivo = new Scanner(caminhoDoArquivoTurmas);
+            if (caminhoDoArquivoTurmas.exists()) {
+              try {
+                while (leituraArquivo.hasNextLine()) {
+                  textoArquivo.add(leituraArquivo.nextLine());
+                }
+                leituraArquivo.close();
+              } catch (Exception e) {
+                System.out.println("Erro ao acessar o arquivo para leitura" + e.getMessage());
+              }
+              System.out.println("RELATORIO: ");
+              for (String i : textoArquivo) {
+                System.out.println(i + "\n ");
+              }
             }
             break;
           case 10:
